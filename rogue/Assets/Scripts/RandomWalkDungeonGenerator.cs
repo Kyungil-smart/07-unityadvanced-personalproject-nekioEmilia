@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RandomWalkDungeonGenerator : AbstractDungeonGenerator
@@ -11,7 +12,7 @@ public class RandomWalkDungeonGenerator : AbstractDungeonGenerator
         
         tilemapVisualizer.Clear();
         tilemapVisualizer.PaintFloorTiles(floorPositions);
-        
+        WallGenerator.CreateWalls(floorPositions, tilemapVisualizer);
     }
 
     protected HashSet<Vector2Int> RunRandomWalk(RandomWalkSO parameters, Vector2Int position)
@@ -23,6 +24,11 @@ public class RandomWalkDungeonGenerator : AbstractDungeonGenerator
         {
             var path = ProceduralGenerationAlgorithms.SimpleRandomWalk(currentPosition, parameters.walkLength);
             floorPositions.UnionWith(path);
+            
+            /*
+            if (parameters.startRandomlyEachIteration)
+                currentPosition = floorPositions.ElementAt(Random.Range(0, floorPositions.Count));
+            */
         }
         
         return floorPositions;

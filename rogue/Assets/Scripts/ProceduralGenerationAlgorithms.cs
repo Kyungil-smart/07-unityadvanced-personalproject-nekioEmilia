@@ -111,7 +111,7 @@ public static class ProceduralGenerationAlgorithms
 
 public static class Direction2D
 {
-    public static List<Vector2Int> CardinalDirectionsList = new List<Vector2Int>()
+    public static readonly List<Vector2Int> CardinalDirectionsList = new List<Vector2Int>()
     {
         new Vector2Int(0, 1),  // UP
         new Vector2Int(1, 0),  // RIGHT
@@ -119,7 +119,7 @@ public static class Direction2D
         new Vector2Int(-1, 0)  // LEFT
     };
 
-    public static List<Vector2Int> DiagonalDirectionsList = new List<Vector2Int>()
+    public static readonly List<Vector2Int> DiagonalDirectionsList = new List<Vector2Int>()
     {
         new Vector2Int(1, 1),   // UP-RIGHT
         new Vector2Int(1, -1),  // RIGHT-DOWN
@@ -127,7 +127,7 @@ public static class Direction2D
         new Vector2Int(-1, 1)   // LEFT-UP
     };
 
-    public static List<Vector2Int> EightDiagonalDirectionsList = new List<Vector2Int>()
+    public static readonly List<Vector2Int> EightDiagonalDirectionsList = new List<Vector2Int>()
     {
         new Vector2Int(0, 1),   // UP
         new Vector2Int(1, 1),   // UP-RIGHT
