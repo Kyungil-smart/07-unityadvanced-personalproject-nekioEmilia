@@ -1,4 +1,5 @@
-using System.Numerics;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -25,8 +26,21 @@ public class TilemapVisualizer : MonoBehaviour
 
     private void PaintSingleTile(Tilemap tilemap, TileBase tile, Vector2Int position)
     {
-        var tilePosition = tilemap.WorldToCell((Vector3)position);
+        var tilePosition = tilemap.WorldToCell((Vector3Int)position);
         tilemap.SetTile(tilePosition, tile);
+    }
+
+    public void PaintSingleBasicWall(Vector2Int position, string binaryType)
+    {
+        int typeAsInt = Convert.ToInt32(binaryType, 2);
+        TileBase tile = null;
+        
+        
+
+        if (tile != null)
+        {
+            PaintSingleTile(wallTilemap, tile, position);
+        }
     }
 
     public void Clear()
