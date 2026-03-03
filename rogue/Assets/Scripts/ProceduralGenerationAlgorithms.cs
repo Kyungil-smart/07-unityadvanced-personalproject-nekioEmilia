@@ -88,7 +88,7 @@ public static class ProceduralGenerationAlgorithms
     private static void SplitVertically(int minWidth, Queue<BoundsInt> roomsQueue, BoundsInt room)
     {
         int xSplit = Random.Range(1, room.size.x);
-        BoundsInt room1 = new BoundsInt(room.min, new Vector3(xSplit, room.size.y, room.size.z));
+        BoundsInt room1 = new BoundsInt(room.min, new Vector3Int(xSplit, room.size.y, room.size.z));
         BoundsInt room2 = new BoundsInt(new Vector3Int(room.min.x + xSplit, room.min.y, room.min.z),
             new Vector3Int(room.size.x - xSplit, room.size.y, room.size.z));
 
@@ -99,7 +99,7 @@ public static class ProceduralGenerationAlgorithms
     private static void SplitHorizontally(int minHeight, Queue<BoundsInt> roomsQueue, BoundsInt room)
     {
         int ySplit = Random.Range(1, room.size.y);
-        BoundsInt room1 = new BoundsInt(room.min, new Vector3(room.size.x, ySplit, room.size.z));
+        BoundsInt room1 = new BoundsInt(room.min, new Vector3Int(room.size.x, ySplit, room.size.z));
         BoundsInt room2 = new BoundsInt(new Vector3Int(room.min.x, room.min.y + ySplit, room.min.z),
             new Vector3Int(room.size.x, room.size.y - ySplit, room.size.z));
 
