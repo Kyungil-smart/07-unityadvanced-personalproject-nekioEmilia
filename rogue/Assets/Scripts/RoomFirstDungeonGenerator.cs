@@ -40,10 +40,35 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
         floor.UnionWith(roomCenters);
 
         tilemapVisualizer.PaintFloorTiles(floor);
-        
+        WallGenerator.CreateWalls(floor, tilemapVisualizer);
     }
 
     private HashSet<Vector2Int> ConnectRooms(List<Vector2Int> roomCenters)
+    {
+        HashSet<Vector2Int> corridors = new HashSet<Vector2Int>();
+        
+        var currentRoomCenter = roomCenters[Random.Range(0, roomCenters.Count)];
+        roomCenters.Remove(currentRoomCenter);
+
+        while (roomCenters.Count > 0)
+        {
+            Vector2Int closest = FindClosestPointTo(currentRoomCenter, roomCenters);
+            roomCenters.Remove(closest);
+            
+            HashSet<Vector2Int> newCorridor = CreateCorridor(currentRoomCenter, closest);
+            currentRoomCenter = closest;
+            corridors.UnionWith(newCorridor);
+        }
+        
+        return corridors;
+    }
+
+    private HashSet<Vector2Int> CreateCorridor(Vector2Int currentRoomCenter, Vector2Int closest)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    private Vector2Int FindClosestPointTo(Vector2Int currentRoomCenter, List<Vector2Int> roomCenters)
     {
         throw new System.NotImplementedException();
     }
@@ -55,6 +80,24 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
 
     private HashSet<Vector2Int> CreateRoomsRandomly(List<BoundsInt> roomsList)
     {
-        throw new System.NotImplementedException();
+        HashSet<Vector2Int> floor = new HashSet<Vector2Int>();
+
+        for (int i = 0; i < roomsList.Count; i++)
+        {
+            var roomBounds = roomsList[i];
+            var roomCenter = new Vector2Int(Mathf.RoundToInt(roomBounds.center.x), Mathf.RoundToInt(roomBounds.center.y));
+            var roomFloor = RunRandomWalk(randomWalkParameters, roomCenter);
+
+            foreach (var position in roomFloor)
+            {
+                if (position.x >= (roomBounds.xMin + offset) && position.x <= (roomBounds.xMax - offset) &&
+                    position.y >= (roomBounds.yMin - offset) && position.y <= (roomBounds.yMax - offset))
+                {
+                    floor.Add(position);
+                }
+            }
+        }
+        
+        return floor;
     }
 }

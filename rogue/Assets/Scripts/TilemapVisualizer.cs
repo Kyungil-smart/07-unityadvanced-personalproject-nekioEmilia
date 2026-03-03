@@ -36,11 +36,12 @@ public class TilemapVisualizer : MonoBehaviour
         TileBase tile = null;
         
         
-
+        /*
         if (tile != null)
         {
             PaintSingleTile(wallTilemap, tile, position);
         }
+        */
     }
 
     public void Clear()
