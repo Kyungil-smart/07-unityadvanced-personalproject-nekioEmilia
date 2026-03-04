@@ -59,10 +59,7 @@ public class TilemapVisualizer : MonoBehaviour
         }
         
         if (tile != null)
-        {
             PaintSingleTile(wallTilemap, tile, position);
-        }
-
     }
 
     public void Clear()
@@ -104,7 +101,7 @@ public class TilemapVisualizer : MonoBehaviour
         {
             tile = wallFull;
         }
-        else if (WallTypesHelper.wallBottmEightDirections.Contains(typeAsInt))
+        else if (WallTypesHelper.wallBottomEightDirections.Contains(typeAsInt))
         {
             tile = wallBottom;
         }
