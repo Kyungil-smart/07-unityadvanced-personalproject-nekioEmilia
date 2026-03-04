@@ -9,7 +9,7 @@ public static class WallGenerator
         var cornerWallPosition = FindWallsInDirections(floorPositions, Direction2D.DiagonalDirectionsList);
 
         CreateBasicWall(tilemapVisualizer, basicWallPosition, floorPositions);
-        CreateCornerWall(tilemapVisualizer, basicWallPosition, floorPositions);
+        CreateCornerWall(tilemapVisualizer, cornerWallPosition, floorPositions);
     }
 
     private static void CreateCornerWall(TilemapVisualizer tilemapVisualizer, HashSet<Vector2Int> basicWallPosition, HashSet<Vector2Int> floorPositions)

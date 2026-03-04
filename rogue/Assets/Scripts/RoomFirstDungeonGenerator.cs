@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
 {
     [SerializeField] private int minRoomWidth = 4, minRoomHeight = 4;
     [SerializeField] private int dungeonWidth = 20, dungeonHeight = 20;
     [SerializeField] [Range(0, 5)] private int offset = 1;
-    [SerializeField] private bool randomWalkRooms = false;
 
     protected override void RunProceduralGeneration()
     {
@@ -17,17 +17,10 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
     {
         var roomsList = ProceduralGenerationAlgorithms.BinarySpacePartitioning(new BoundsInt((Vector3Int)startPosition,
             new Vector3Int(dungeonWidth, dungeonHeight, 0)), minRoomWidth, minRoomHeight);
-        
+
         HashSet<Vector2Int> floor = new HashSet<Vector2Int>();
 
-        if (randomWalkRooms)
-        {
-            floor = CreateRoomsRandomly(roomsList);
-        }
-        else
-        {
-            floor = CreateSimpleRooms(roomsList);
-        }
+        floor = CreateRoom(roomsList);
 
         List<Vector2Int> roomCenters = new List<Vector2Int>();
 
@@ -46,7 +39,7 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
     private HashSet<Vector2Int> ConnectRooms(List<Vector2Int> roomCenters)
     {
         HashSet<Vector2Int> corridors = new HashSet<Vector2Int>();
-        
+
         var currentRoomCenter = roomCenters[Random.Range(0, roomCenters.Count)];
         roomCenters.Remove(currentRoomCenter);
 
@@ -54,12 +47,12 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
         {
             Vector2Int closest = FindClosestPointTo(currentRoomCenter, roomCenters);
             roomCenters.Remove(closest);
-            
+
             HashSet<Vector2Int> newCorridor = CreateCorridor(currentRoomCenter, closest);
             currentRoomCenter = closest;
             corridors.UnionWith(newCorridor);
         }
-        
+
         return corridors;
     }
 
@@ -79,7 +72,7 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
             {
                 position += Vector2Int.down;
             }
-            
+
             corridor.Add(position);
         }
 
@@ -93,7 +86,7 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
             {
                 position += Vector2Int.left;
             }
-            
+
             corridor.Add(position);
         }
 
@@ -115,11 +108,11 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
                 closest = position;
             }
         }
-        
+
         return closest;
     }
 
-    private HashSet<Vector2Int> CreateSimpleRooms(List<BoundsInt> roomsList)
+    private HashSet<Vector2Int> CreateRoom(List<BoundsInt> roomsList)
     {
         HashSet<Vector2Int> floor = new HashSet<Vector2Int>();
 
@@ -138,6 +131,7 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
         return floor;
     }
 
+    /*
     private HashSet<Vector2Int> CreateRoomsRandomly(List<BoundsInt> roomsList)
     {
         HashSet<Vector2Int> floor = new HashSet<Vector2Int>();
@@ -157,7 +151,8 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
                 }
             }
         }
-        
+
         return floor;
     }
+    */
 }
