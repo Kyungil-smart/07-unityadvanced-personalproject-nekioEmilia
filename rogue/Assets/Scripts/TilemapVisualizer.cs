@@ -32,7 +32,7 @@ public class TilemapVisualizer : MonoBehaviour
 
     public void PaintSingleBasicWall(Vector2Int position, string binaryType)
     {
-        int typeAsInt = Convert.ToInt32(binaryType, 2);
+        var typeAsInt = Convert.ToInt32(binaryType, 2);
         TileBase tile = null;
         
         
@@ -48,5 +48,10 @@ public class TilemapVisualizer : MonoBehaviour
     {
         floorTilemap.ClearAllTiles();
         wallTilemap.ClearAllTiles();
+    }
+
+    public void PaintSingleCorrnerWall(Vector2Int position, string neighboursBinaryType)
+    {
+        throw new NotImplementedException();
     }
 }

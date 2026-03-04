@@ -37,7 +37,7 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
         }
 
         HashSet<Vector2Int> corridors = ConnectRooms(roomCenters);
-        floor.UnionWith(roomCenters);
+        floor.UnionWith(corridors);
 
         tilemapVisualizer.PaintFloorTiles(floor);
         WallGenerator.CreateWalls(floor, tilemapVisualizer);
@@ -63,19 +63,79 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
         return corridors;
     }
 
-    private HashSet<Vector2Int> CreateCorridor(Vector2Int currentRoomCenter, Vector2Int closest)
+    private HashSet<Vector2Int> CreateCorridor(Vector2Int currentRoomCenter, Vector2Int destination)
     {
-        throw new System.NotImplementedException();
+        HashSet<Vector2Int> corridor = new HashSet<Vector2Int>();
+        var position = currentRoomCenter;
+        corridor.Add(position);
+
+        while (position.y != destination.y)
+        {
+            if (destination.y > position.y)
+            {
+                position += Vector2Int.up;
+            }
+            else if (destination.y < position.y)
+            {
+                position += Vector2Int.down;
+            }
+            
+            corridor.Add(position);
+        }
+
+        while (position.x != destination.x)
+        {
+            if (destination.x > position.x)
+            {
+                position += Vector2Int.right;
+            }
+            else if (destination.x < position.x)
+            {
+                position += Vector2Int.left;
+            }
+            
+            corridor.Add(position);
+        }
+
+        return corridor;
     }
 
     private Vector2Int FindClosestPointTo(Vector2Int currentRoomCenter, List<Vector2Int> roomCenters)
     {
-        throw new System.NotImplementedException();
+        Vector2Int closest = Vector2Int.zero;
+        float distance = float.MaxValue;
+
+        foreach (var position in roomCenters)
+        {
+            float currentDistance = Vector2.Distance(position, currentRoomCenter);
+
+            if (currentDistance < distance)
+            {
+                distance = currentDistance;
+                closest = position;
+            }
+        }
+        
+        return closest;
     }
 
     private HashSet<Vector2Int> CreateSimpleRooms(List<BoundsInt> roomsList)
     {
-        throw new System.NotImplementedException();
+        HashSet<Vector2Int> floor = new HashSet<Vector2Int>();
+
+        foreach (var room in roomsList)
+        {
+            for (int col = offset; col < room.size.x - offset; col++)
+            {
+                for (int row = offset; row < room.size.y - offset; row++)
+                {
+                    Vector2Int position = (Vector2Int)room.min + new Vector2Int(col, row);
+                    floor.Add(position);
+                }
+            }
+        }
+
+        return floor;
     }
 
     private HashSet<Vector2Int> CreateRoomsRandomly(List<BoundsInt> roomsList)
