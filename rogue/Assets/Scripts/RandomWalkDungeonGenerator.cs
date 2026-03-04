@@ -24,11 +24,6 @@ public class RandomWalkDungeonGenerator : AbstractDungeonGenerator
         {
             var path = ProceduralGenerationAlgorithms.SimpleRandomWalk(currentPosition, parameters.walkLength);
             floorPositions.UnionWith(path);
-            
-            /*
-            if (parameters.startRandomlyEachIteration)
-                currentPosition = floorPositions.ElementAt(Random.Range(0, floorPositions.Count));
-            */
         }
         
         return floorPositions;

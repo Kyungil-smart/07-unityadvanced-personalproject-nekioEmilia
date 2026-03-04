@@ -32,7 +32,7 @@ public static class WallGenerator
                 }
             }
 
-            tilemapVisualizer.PaintSingleCorrnerWall(position, neighboursBinaryType);
+            tilemapVisualizer.PaintSingleCornerWall(position, neighboursBinaryType);
         }
     }
 
