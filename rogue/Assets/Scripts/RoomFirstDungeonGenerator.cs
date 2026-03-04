@@ -28,6 +28,8 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
 
         // 2. 나뉜 구역 정보를 바탕으로 실제 방의 바닥 타일 좌표들을 생성
         floor = CreateRoom(roomsList);
+        // floor = CreateRoomsRandomly(roomsList);
+        // -> 두 번째 방식이 나중에 셀룰러 오토마타 알고리즘을 추가해 고점 노려볼 수 있음
         
         // 3. 각 방의 중심점 좌표를 저장할 리스트 생성 (복도 연결용)
         List<Vector2Int> roomCenters = new List<Vector2Int>();
@@ -177,7 +179,7 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
 
         return floor;
     }
-
+    
     /*
     private HashSet<Vector2Int> CreateRoomsRandomly(List<BoundsInt> roomsList)
     {
