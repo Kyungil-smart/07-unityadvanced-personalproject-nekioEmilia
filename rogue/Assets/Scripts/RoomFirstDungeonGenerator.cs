@@ -49,6 +49,11 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
         // 6. 타일맵에 바닥을 그리고, 바닥의 외곽선을 따라 벽을 생성
         tilemapVisualizer.PaintFloorTiles(floor);
         WallGenerator.CreateWalls(floor, tilemapVisualizer);
+
+        var roomsDataList = RoomTypes(roomsList);
+        
+        Debug.Log($"총 방의 개수: {roomsDataList.Count}");
+        Debug.Log($"시작 방 좌표: {roomsDataList[0].centerPos}");
     }
 
     /// <summary>
@@ -80,6 +85,40 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
         }
 
         return corridors;
+    }
+    
+    private List<RoomData> RoomTypes(List<BoundsInt> roomsList)
+    {
+        List<RoomData> roomDataList = new List<RoomData>();
+
+        foreach (var bounds in roomsList)
+        {
+            roomDataList.Add(new RoomData(bounds));
+        }
+
+        roomDataList[0].roomType = RoomType.StartRoom;
+        Vector2Int startCenter = roomDataList[0].centerPos;
+
+        float maxDistance = 0f;
+        RoomData furthestRoom = null;
+
+        for (int i = 1; i < roomDataList.Count; i++)
+        {
+            float distance = Vector2.Distance(startCenter, roomDataList[i].centerPos);
+
+            if (distance > maxDistance)
+            {
+                maxDistance = distance;
+                furthestRoom = roomDataList[i];
+            }
+        }
+
+        if (furthestRoom != null)
+        {
+            furthestRoom.roomType = RoomType.ClearRoom;
+        }
+        
+        return roomDataList;
     }
 
     /// <summary>
@@ -179,6 +218,8 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
 
         return floor;
     }
+
+
     
     /*
     private HashSet<Vector2Int> CreateRoomsRandomly(List<BoundsInt> roomsList)
