@@ -7,6 +7,10 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
     [SerializeField] private int minRoomWidth = 4, minRoomHeight = 4;
     [SerializeField] private int dungeonWidth = 20, dungeonHeight = 20;
     
+    [Header("스폰 프리팹")]
+    [SerializeField] GameObject playerPrefab;
+    [SerializeField] GameObject monsterPrefab;
+    
     // offset 값이 커지면 방 크기가 작아지고 방 사이의 간격이 넓어짐
     [SerializeField] [Range(0, 5)] private int offset = 1;
 
@@ -51,9 +55,42 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
         WallGenerator.CreateWalls(floor, tilemapVisualizer);
 
         var roomsDataList = RoomTypes(roomsList);
+        SpawnPlayer(roomsDataList[0].centerPos);
+        SpawnMonster(roomsDataList);
         
         Debug.Log($"총 방의 개수: {roomsDataList.Count}");
         Debug.Log($"시작 방 좌표: {roomsDataList[0].centerPos}");
+    }
+
+    private void SpawnPlayer(Vector2Int startPosition)
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        if (player == null)
+        {
+            Instantiate(playerPrefab, (Vector2)startPosition, Quaternion.identity);
+            Debug.Log("플레이어 스폰 완료");
+        }
+        else
+        {
+            player.transform.position = (Vector2)startPosition;
+        }
+    }
+
+    private void SpawnMonster(List<RoomData> roomDataList)
+    {
+        foreach (var room in roomDataList)
+        {
+            if (room.roomType == RoomType.MonsterRoom)
+            {
+                if (monsterPrefab != null)
+                {
+                    Instantiate(monsterPrefab, (Vector2)room.centerPos, Quaternion.identity);
+                }
+            }
+            Debug.Log("몬스터 스폰");
+        }
+        
     }
 
     /// <summary>
