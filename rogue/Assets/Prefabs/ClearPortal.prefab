@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1715785540839467899}
   - component: {fileID: 4325366671650261560}
   - component: {fileID: -2782838052815144950}
+  - component: {fileID: 385651450095106388}
   m_Layer: 8
   m_Name: ClearPortal
   m_TagString: ClearPortal
@@ -142,3 +143,15 @@ PolygonCollider2D:
       - {x: -0.5, y: -0.28866667}
       - {x: 0.5, y: -0.28866667}
   m_UseDelaunayMesh: 1
+--- !u!114 &385651450095106388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2393861947826491747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0e391a6febe21246b13bc33485f4da6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Clear

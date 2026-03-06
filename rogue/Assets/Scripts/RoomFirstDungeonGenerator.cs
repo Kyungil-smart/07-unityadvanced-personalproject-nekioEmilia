@@ -315,7 +315,6 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
         if (other.CompareTag("Player"))
         {
             Debug.Log("게임 클리어");
-            Start();
         }
     }
 
