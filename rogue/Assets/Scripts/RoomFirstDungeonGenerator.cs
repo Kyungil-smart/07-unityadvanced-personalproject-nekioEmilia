@@ -83,21 +83,28 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
     private void SpawnMonster(List<RoomData> roomDataList)
     {
         GameObject monster = GameObject.FindGameObjectWithTag("Monster");
+
+        if (monster != null)
+        {
+            if (Application.isPlaying)
+            {
+                Destroy(monster);
+            }
+            else
+            {
+                DestroyImmediate(monster);
+            }
+        }
         
         foreach (var room in roomDataList)
         {
             if (room.roomType == RoomType.MonsterRoom)
             {
-                if (monsterPrefab != null && monster == null)
+                if (monsterPrefab != null)
                 {
                     Instantiate(monsterPrefab, (Vector2)room.centerPos, Quaternion.identity);
                 }
-                else
-                {
-                    monster.transform.position = (Vector2)room.centerPos;
-                }
             }
-            Debug.Log("몬스터 스폰");
         }
     }
     
@@ -266,27 +273,32 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
         return floor;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        
-    }
-
     private void GameClear(List<RoomData> roomDataList)
     {
         GameObject clearPortal = GameObject.FindGameObjectWithTag("ClearPortal");
 
+        if (clearPortal != null)
+        {
+            if (Application.isPlaying)
+            {
+                Destroy(clearPortal);
+            }
+            else
+            {
+                DestroyImmediate(clearPortal);
+            }
+        }
+        
         foreach (var room in roomDataList)
         {
             if (room.roomType == RoomType.ClearRoom)
             {
-                if (clearPortalPrefab != null && clearPortal == null)
+                if (clearPortalPrefab != null)
                 {
                     Instantiate(clearPortalPrefab, (Vector2)room.centerPos, Quaternion.identity);
                     Debug.Log("포탈 배치");
-                }
-                else
-                {
-                    clearPortal.transform.position = (Vector2)room.centerPos;
+
+                    break;
                 }
             }
         }
