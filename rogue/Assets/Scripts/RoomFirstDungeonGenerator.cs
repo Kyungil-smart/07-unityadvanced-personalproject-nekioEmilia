@@ -16,6 +16,12 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
     // offset 값이 커지면 방 크기가 작아지고 방 사이의 간격이 넓어짐
     [SerializeField] [Range(0, 5)] private int offset = 1;
 
+    private void Start()
+    {
+        tilemapVisualizer.Clear();
+        RunProceduralGeneration();
+    }
+
     protected override void RunProceduralGeneration()
     {
         CreateRooms();
@@ -59,7 +65,7 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
         var roomsDataList = RoomTypes(roomsList);
         SpawnPlayer(roomsDataList[0].centerPos);
         SpawnMonster(roomsDataList);
-        GameClear(roomsDataList);
+        ClearPortal(roomsDataList);
         
         Debug.Log($"총 방의 개수: {roomsDataList.Count}");
         Debug.Log($"시작 방 좌표: {roomsDataList[0].centerPos}");
@@ -273,7 +279,7 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
         return floor;
     }
 
-    private void GameClear(List<RoomData> roomDataList)
+    private void ClearPortal(List<RoomData> roomDataList)
     {
         GameObject clearPortal = GameObject.FindGameObjectWithTag("ClearPortal");
 
@@ -301,6 +307,15 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
                     break;
                 }
             }
+        }
+    }
+    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("게임 클리어");
+            Start();
         }
     }
 

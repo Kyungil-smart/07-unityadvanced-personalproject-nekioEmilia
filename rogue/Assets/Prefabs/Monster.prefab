@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6748346323173044037}
   - component: {fileID: 2840194021238222562}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Monster
   m_TagString: Monster
   m_Icon: {fileID: 0}
