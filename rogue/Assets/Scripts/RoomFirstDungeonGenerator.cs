@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -10,6 +11,7 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
     [Header("스폰 프리팹")]
     [SerializeField] GameObject playerPrefab;
     [SerializeField] GameObject monsterPrefab;
+    [SerializeField] GameObject clearPortalPrefab;
     
     // offset 값이 커지면 방 크기가 작아지고 방 사이의 간격이 넓어짐
     [SerializeField] [Range(0, 5)] private int offset = 1;
@@ -57,6 +59,7 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
         var roomsDataList = RoomTypes(roomsList);
         SpawnPlayer(roomsDataList[0].centerPos);
         SpawnMonster(roomsDataList);
+        GameClear(roomsDataList);
         
         Debug.Log($"총 방의 개수: {roomsDataList.Count}");
         Debug.Log($"시작 방 좌표: {roomsDataList[0].centerPos}");
@@ -79,19 +82,26 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
 
     private void SpawnMonster(List<RoomData> roomDataList)
     {
+        GameObject monster = GameObject.FindGameObjectWithTag("Monster");
+        
         foreach (var room in roomDataList)
         {
             if (room.roomType == RoomType.MonsterRoom)
             {
-                if (monsterPrefab != null)
+                if (monsterPrefab != null && monster == null)
                 {
                     Instantiate(monsterPrefab, (Vector2)room.centerPos, Quaternion.identity);
+                }
+                else
+                {
+                    monster.transform.position = (Vector2)room.centerPos;
                 }
             }
             Debug.Log("몬스터 스폰");
         }
-        
     }
+    
+    
 
     /// <summary>
     /// 모든 방의 중심점을 가장 가까운 방끼리 차례대로 연결하여 복도를 생성
@@ -256,8 +266,33 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
         return floor;
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        
+    }
 
-    
+    private void GameClear(List<RoomData> roomDataList)
+    {
+        GameObject clearPortal = GameObject.FindGameObjectWithTag("ClearPortal");
+
+        foreach (var room in roomDataList)
+        {
+            if (room.roomType == RoomType.ClearRoom)
+            {
+                if (clearPortalPrefab != null && clearPortal == null)
+                {
+                    Instantiate(clearPortalPrefab, (Vector2)room.centerPos, Quaternion.identity);
+                    Debug.Log("포탈 배치");
+                }
+                else
+                {
+                    clearPortal.transform.position = (Vector2)room.centerPos;
+                }
+            }
+        }
+    }
+
+
     /*
     private HashSet<Vector2Int> CreateRoomsRandomly(List<BoundsInt> roomsList)
     {
