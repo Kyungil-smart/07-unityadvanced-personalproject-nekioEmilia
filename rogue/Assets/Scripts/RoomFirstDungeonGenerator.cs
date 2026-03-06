@@ -88,19 +88,23 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
 
     private void SpawnMonster(List<RoomData> roomDataList)
     {
-        GameObject monster = GameObject.FindGameObjectWithTag("Monster");
+        GameObject[] monsters = GameObject.FindGameObjectsWithTag("Monster");
 
-        if (monster != null)
+        foreach (var monster in monsters)
         {
-            if (Application.isPlaying)
+            if (monster != null)
             {
-                Destroy(monster);
-            }
-            else
-            {
-                DestroyImmediate(monster);
+                if (Application.isPlaying)
+                {
+                    Destroy(monster);
+                }
+                else
+                {
+                    DestroyImmediate(monster);
+                }
             }
         }
+        
         
         foreach (var room in roomDataList)
         {
