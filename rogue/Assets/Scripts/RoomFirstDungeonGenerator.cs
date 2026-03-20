@@ -8,10 +8,12 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
     [SerializeField] private int minRoomWidth = 4, minRoomHeight = 4;
     [SerializeField] private int dungeonWidth = 20, dungeonHeight = 20;
     
+    /*
     [Header("스폰 프리팹")]
     [SerializeField] GameObject playerPrefab;
     [SerializeField] GameObject monsterPrefab;
     [SerializeField] GameObject clearPortalPrefab;
+    */
     
     // offset 값이 커지면 방 크기가 작아지고 방 사이의 간격이 넓어짐
     [SerializeField] [Range(0, 5)] private int offset = 1;
@@ -62,15 +64,20 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
         tilemapVisualizer.PaintFloorTiles(floor);
         WallGenerator.CreateWalls(floor, tilemapVisualizer);
 
+        
         var roomsDataList = RoomTypes(roomsList);
+        /*
         SpawnPlayer(roomsDataList[0].centerPos);
         SpawnMonster(roomsDataList);
         ClearPortal(roomsDataList);
+        */
+        
         
         Debug.Log($"총 방의 개수: {roomsDataList.Count}");
         Debug.Log($"시작 방 좌표: {roomsDataList[0].centerPos}");
     }
 
+    /*
     private void SpawnPlayer(Vector2Int startPosition)
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -117,6 +124,7 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
             }
         }
     }
+    */
     
     
 
@@ -283,6 +291,7 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
         return floor;
     }
 
+    /*
     private void ClearPortal(List<RoomData> roomDataList)
     {
         GameObject clearPortal = GameObject.FindGameObjectWithTag("ClearPortal");
@@ -321,6 +330,7 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
             Debug.Log("게임 클리어");
         }
     }
+    */
 
 
     /*
